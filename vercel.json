@@ -1,10 +1,6 @@
 {
   "version": 2,
-  "functions": {
-    "app.py": {
-      "runtime": "python3.12.10"
-    }
-  },
+  
   "routes": [
     { "src": "/(.*)", "dest": "app.py" }
   ]
