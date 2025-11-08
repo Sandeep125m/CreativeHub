@@ -5,14 +5,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from apscheduler.schedulers.background import BackgroundScheduler
 from twilio.rest import Client
 
+import os
+from dotenv import load_dotenv
 
+load_dotenv()  # loads .env
+
+SECRET_KEY = os.getenv("SECRET_KEY", "fallbacksecret")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 
 # configure SQL Alchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db" 
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
