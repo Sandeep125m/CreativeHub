@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreativeHub | Buy Package</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <style>
+        h1 { font-size: 24px; margin-bottom: 5px; }
+        p.subtitle { color: #666; margin-top: 0; margin-bottom: 40px; }
+
+        .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .package-card { 
+            background-color: white; padding: 30px 20px; border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 2px solid transparent; position: relative;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .package-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .package-card.selected { border-color: #5a5aff; }
+        .package-card.selected:before {
+            content: "Most Popular";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #5a5aff;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .package-name { font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 5px; }
+        .package-price { font-size: 36px; font-weight: 300; text-align: center; margin-bottom: 10px; }
+        .package-desc { color: #666; font-size: 14px; text-align: center; margin-bottom: 20px; min-height: 40px;}
+
+        .credits-info { background-color: #f0f0ff; color: #5a5aff; padding: 15px 10px; border-radius: 4px; text-align: center; margin-bottom: 20px; }
+        .credits-info .credits { font-size: 24px; font-weight: bold; }
+        .credits-info .price-per { font-size: 14px; }
+
+        .features { list-style: none; padding: 0; }
+        .features li { font-size: 14px; padding: 8px 0; border-top: 1px solid #eee; display: flex; align-items: center; }
+        .features li:last-child { border-bottom: none; }
+        .features li:before { content: '✓'; color: #28a745; font-weight: bold; margin-right: 10px; font-size: 16px; }
+
+        .selected-package-footer { 
+            margin-top: 40px; 
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .selected-package-info { font-weight: bold; font-size: 16px; }
+        .btn-continue { background-color: #333; color: white; padding: 12px 25px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        .btn-cancel { background: none; color: #666; padding: 12px 25px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">
+                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            </a>
+            <nav class="sidebar-menu">
+                <a href="{{ url_for('dashboard') }}" >
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="/new_request">
+                    <span class="icon">+</span> New Request
+                </a>
+                <a href="/my_requests">
+                    <span class="icon">📜</span> My Requests
+                </a>
+                <a href="/buy_package" class="active">
+                    <span class="icon">📦</span> Buy Package
+                </a>
+                <a href="/buy_credits">
+                    <span class="icon">💳</span> Buy Credits
+                </a>
+                <a href="/credit_history">
+                    <span class="icon">🕒</span> Credit History
+                </a>
+                <a href="/settings">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div style="padding: 20px; margin-top: 50px;">
+                <p>Need Help?</p>
+                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="header">
+                <div class="credit-info">{{ available_credits }} credits</div>
+                <a href="{{ url_for('logout') }}">Logout </a>
+            </div>
+
+        <h1>Purchase Credit Package</h1>
+        <p class="subtitle">Choose a package that fits your creative needs</p>
+        
+        <form method="POST" id="packageForm">
+            <input type="hidden" name="selected_package" id="selected_package" value="{{ packages[0].name }}">
+
+            <div class="package-grid">
+                {% for package in packages %}
+                <div class="package-card {% if package.is_selected %}selected{% endif %}">
+                    {% if package.is_popular %}
+                        <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: #5a5aff; color: white; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: bold;">Most Popular</div>
+                    {% endif %}
+
+                    <p class="package-name">{{ package.name }}</p>
+                    <p class="package-price">${{ package.price }}</p>
+                    <p class="package-desc">{{ package.description }}</p>
+
+                    <div class="credits-info">
+                        <div class="credits">{{ package.credits }} Credits</div>
+                        <div class="price-per">${{ package.price_per_credit }} per credit</div>
+                    </div>
+
+                    <ul class="features">
+                        {% for feature in package.features %}
+                        <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% set selected_package = packages | selectattr('is_selected') | first %}
+            <div class="selected-package-footer">
+                <div class="selected-package-info">
+                    Selected Package: {{ selected_package.name }} - ${{ selected_package.price }}
+                </div>
+                <div>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/dashboard'">Cancel</button>
+                    <button type="submit" class="btn-continue">Continue to Payment</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const packageCards = document.querySelectorAll(".package-card");
+    const hiddenInput = document.getElementById("selected_package");
+    const infoText = document.querySelector(".selected-package-info");
+
+    packageCards.forEach(card => {
+        card.addEventListener("click", () => {
+            // remove selection from all
+            packageCards.forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+
+            const name = card.querySelector(".package-name").textContent;
+            const price = card.querySelector(".package-price").textContent;
+
+            infoText.textContent = `Selected Package: ${name} - ${price}`;
+            hiddenInput.value = name;
+        });
+    });
+});
+</script>
+
+</body>
+</html>

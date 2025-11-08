@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreativeHub | New Request</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <style>
+        
+        .card { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 16px; }
+        .form-group small { display: block; color: #666; margin-top: 5px; font-size: 13px; }
+        .form-control, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+        
+        .next-steps { border: 1px solid #eee; padding: 20px; border-radius: 4px; margin-top: 30px; }
+        .next-steps h3 { margin-top: 0; font-size: 18px; color: #555; }
+        .next-steps ul { list-style: none; padding: 0; }
+        .next-steps ul li { margin-bottom: 10px; color: #333; }
+        .next-steps ul li:before { content: '✓'; color: green; font-weight: bold; margin-right: 10px; }
+        
+        .btn-primary { background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px; }
+        .btn-secondary { background: none; color: #666; padding: 10px 20px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">
+                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            </a>
+            <nav class="sidebar-menu">
+                <a href="{{ url_for('dashboard') }}">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="/new_request" class="active">
+                    <span class="icon" style="color: #5a5aff;">+</span> New Request
+                </a>
+                <a href="/my_requests">
+                    <span class="icon">📜</span> My Requests
+                </a>
+                <a href="/buy_package">
+                    <span class="icon">📦</span> Buy Package
+                </a>
+                <a href="/buy_credits">
+                    <span class="icon">💳</span> Buy Credits
+                </a>
+                <a href="/credit_history">
+                    <span class="icon">🕒</span> Credit History
+                </a>
+                <a href="/settings">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div style="padding: 20px; margin-top: 50px;">
+                <p>Need Help?</p>
+                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="header">
+                <div class="credit-info">{{ available_credits }} credits</div>
+                <a href="{{ url_for('logout') }}">Logout →</a>
+            </div>
+
+            <div class="card">
+                <h2>New Request</h2>
+                <form action="/new_request" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="service_type">Service Type</label>
+                        <select id="service_type" name="service_type" class="form-control" required>
+                            <option value="" disabled selected>Select a service</option>
+                            <option value="logo">Logo Design (5 credits)</option>
+                            <option value="banner">Website Banner (3 credits)</option>
+                            <option value="social">Social Media Post (2 credits)</option>
+                            <option value="edit">Photo Editing (4 credits)</option>
+                        </select>
+                        <small>Credits will be deducted upon submission</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="request_title">Request Title</label>
+                        <input type="text" id="request_title" name="request_title" class="form-control" 
+                               placeholder="e.g., Update website banner for holiday sale" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control" 
+                                  placeholder="Provide detailed information about your request, including any specific requirements, dimensions, colors, or references..." required></textarea>
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>What happens next?</h3>
+                        <ul>
+                            <li>You'll receive a WhatsApp confirmation</li>
+                            <li>Our team will review your request within 2 hours</li>
+                            <li>You'll get updates via WhatsApp throughout the process</li>
+                            <li>Completed work will be delivered in 24-48 hours</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: left;">
+                        <button type="submit" class="btn-primary">Submit Request</button>
+                        <button type="button" class="btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

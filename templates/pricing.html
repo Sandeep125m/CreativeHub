@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | CreativeHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- ✅ Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CreativeHub Logo">
+            <span>CreativeHub</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('pricing') }}" class="active">Pricing</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+        <div class="nav-buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="login-btn">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="get-started-btn">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+                <a href="{{ url_for('signup') }}" class="get-started-btn">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- ✅ Pricing Header -->
+    <h1 class="title">Simple, Transparent Pricing</h1>
+    <p class="subtitle">
+        Choose a package that fits your needs. All packages include WhatsApp notifications,
+        credit expiry alerts, and flexibility to buy more credits anytime.
+    </p>
+
+    <!-- ✅ Pricing Cards Section -->
+    <section class="pricing-section">
+        {% for plan in plans %}
+        <div class="plan-card {% if plan.popular %}popular{% endif %}">
+            {% if plan.popular %}
+            <div class="badge">Most Popular</div>
+            {% endif %}
+
+            <h2>{{ plan.name }}</h2>
+            <h3 class="price">${{ plan.price }}</h3>
+
+            <div class="credit-box">
+                <h4>{{ plan.credits }} Credits</h4>
+                <p>${{ "%.2f"|format(plan.price_per_credit) }} per credit</p>
+            </div>
+
+            <ul>
+            {% for feature in plan.features %}
+                <li> {{ feature }}</li>
+            {% endfor %}
+            </ul>
+            
+            <a href="{{ url_for('buy_package') }}">
+                <button class="primary-btn">Buy Now</button>
+            </a>
+
+        </div>
+        {% endfor %}
+    </section>
+
+    <!-- ✅ Top-Up Credits Section -->
+    <h2 class="title">Need More Credits?</h2>
+    <p class="subtitle">
+        Top up your account anytime with additional credits. Bonus credits included!
+    </p>
+
+    <section class="topups">
+        {% for t in topups %}
+        <div class="topup-card">
+            <h3>{{ t.credits }} Credits</h3>
+            {% if t.bonus > 0 %}
+            <small class="bonus">+{{ t.bonus }} Bonus</small>
+            {% endif %}
+            <h4 class="price">${{ t.cost }}</h4>
+
+            <a href="{{ url_for('buy_credits') }}">
+            <button class="primary-btn">Buy Now</button>
+            </a>
+        </div>
+        {% endfor %}
+    </section>
+
+</body>
+</html>

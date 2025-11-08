@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | CreativeHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- ✅ Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CreativeHub Logo">
+            <span>CreativeHub</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('services') }}" class="active">Services</a></li>
+            <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+
+        <div class="nav-buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="login-btn">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="get-started-btn">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+                <a href="{{ url_for('signup') }}" class="get-started-btn">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+
+    <!-- ✅ Services Section -->
+    <section class="services-section">
+
+        <div class="service-card">
+            <div class="service-icon">
+                🎨
+            </div>
+            <a href="{{ url_for('new_request') }}">
+                <h2>Graphic Design</h2>
+            </a>
+            <p>Logos, brand identity, illustrations, and custom graphics for all your needs</p>
+
+            <div class="credit-range">
+                5–15 credits
+            </div>
+
+            <div class="examples">
+                <strong>Examples:</strong>
+                <ul>
+                    <li>Logo design</li>
+                    <li>Brand guidelines</li>
+                    <li>Custom illustrations</li>
+                    <li>Print materials</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">
+                🔗
+            </div>
+            <a href="{{ url_for('new_request') }}">
+                <h2>Social Media Content</h2>
+            </a>
+            <p>Eye-catching posts, stories, and ads optimized for each platform</p>
+
+            <div class="credit-range">
+                3–8 credits
+            </div>
+
+            <div class="examples">
+                <strong>Examples:</strong>
+                <ul>
+                    <li>Instagram posts</li>
+                    <li>Facebook ads</li>
+                    <li>LinkedIn graphics</li>
+                    <li>Story templates</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">
+                📐
+            </div>
+            <a href="{{ url_for('new_request') }}">
+                <h2>Web Design</h2>
+            </a>
+            <p>Landing pages, website mockups, and UI/UX design elements</p>
+
+            <div class="credit-range">
+                15–30 credits
+            </div>
+
+            <div class="examples">
+                <strong>Examples:</strong>
+                <ul>
+                    <li>Landing pages</li>
+                    <li>Website sections</li>
+                    <li>UI components</li>
+                    <li>Mobile designs</li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>

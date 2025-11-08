@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | CreativeHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- ✅ Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CreativeHub Logo">
+            <span>CreativeHub</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+
+        <div class="nav-buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="login-btn">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="get-started-btn">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+                <a href="{{ url_for('signup') }}" class="get-started-btn">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+
+    <!-- ✅ About Section -->
+    <section class="about-section">
+
+        <div class="about-left">
+            <h2>About CreativeHub</h2>
+
+            <p>
+                We're a team of passionate designers and creatives who believe
+                that great design should be accessible, flexible, and transparent.
+                That's why we created a credit-based system that puts you in control.
+            </p>
+
+            <p>
+                Founded in 2020, we've helped hundreds of businesses bring their
+                creative visions to life. From startups to enterprises, our credit
+                system adapts to your needs — use credits when you need them,
+                without the pressure of monthly subscriptions.
+            </p>
+
+            <a href="{{ url_for('pricing') }}" class="primary-btn">See Our Pricing</a>
+        </div>
+
+        <div class="about-right">
+            <img src="{{ url_for('static', filename='assets/about_img.jpg') }}"
+                 alt="Creative workspace">
+        </div>
+
+    </section>
+
+</body>
+</html>

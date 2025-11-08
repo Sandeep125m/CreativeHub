@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreativeHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CreativeHub Logo">
+            <span>CreativeHub</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+        <div class="nav-buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="login-btn">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="get-started-btn">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+                <a href="{{ url_for('signup') }}" class="get-started-btn">Get Started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <div class="tag">
+                ✨ Credit-Based Creative Services
+            </div>
+            <h1>Professional Design Services, On Demand</h1>
+            <p>
+                Buy credits, request unlimited edits and designs, and only pay for what you use.
+                Get WhatsApp notifications and never worry about expiring credits with our alert system.
+            </p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('pricing') }}" class="primary-btn">View Packages</a>
+                <a href="{{ url_for('services') }}" class="secondary-btn">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='assets/home_img.jpg') }}" alt="Office Image">
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+<section class="how-it-works">
+    <h2>How It Works</h2>
+    <p class="how-subtitle">Get started in minutes with our simple credit-based workflow</p>
+
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Choose a Package</h3>
+            <p>Select a credit package that fits your needs</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Submit Requests</h3>
+            <p>Request edits or new designs using your credits</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Get Updates</h3>
+            <p>Receive WhatsApp notifications on progress</p>
+        </div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Receive Deliverables</h3>
+            <p>Get your completed designs in 24–48 hours</p>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+    <p class="cta-title">Ready to Get Started?</p>
+    <p class="cta-subtitle">
+        Join hundreds of businesses using CreativeHub for their design needs.
+        No contracts, no subscriptions—just credits and creativity.
+    </p>
+    <a href="{{ url_for('pricing') }}" class="primary-btn cta-btn">View Pricing Plans</a>
+</section>
+
+</body>
+</html>

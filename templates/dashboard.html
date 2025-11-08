@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreativeHub | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">
+                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            </a>
+            <nav class="sidebar-menu">
+                <a href="{{ url_for('dashboard') }}" class="active">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="/new_request">
+                    <span class="icon">+</span> New Request
+                </a>
+                <a href="/my_requests">
+                    <span class="icon">📜</span> My Requests
+                </a>
+                <a href="/buy_package">
+                    <span class="icon">📦</span> Buy Package
+                </a>
+                <a href="/buy_credits">
+                    <span class="icon">💳</span> Buy Credits
+                </a>
+                <a href="/credit_history">
+                    <span class="icon">🕒</span> Credit History
+                </a>
+                <a href="/settings">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div style="padding: 20px; margin-top: 50px;">
+                <p>Need Help?</p>
+                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="header">
+                <div class="credit-info">{{ available_credits }} credits</div>
+                <a href="{{ url_for('logout') }}">Logout </a>
+            </div>
+
+            <div class="welcome-message">
+                <h1>Welcome back, {{ user_name }}!</h1>
+                <p>Manage your credits and track your projects</p>
+            </div>
+
+            <hr>
+
+            <div class="alert-box">
+                <span style="font-weight: bold;">⚠️ Credits Expiring Soon!</span>
+                <br>
+                {{ expiring_credits }} credits will expire on {{ expiry_date }}
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Available Credits 📦</div>
+                    <div class="stat-value">{{ available_credits }}</div>
+                    <a href="{{ url_for('buy_credits') }}"><button class="buy-more-btn">+ Buy More</button></a>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Requests 🕒</div>
+                    <div class="stat-value">{{ active_requests }}</div>
+                    <p style="font-size: 12px; color: #999;">In progress</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completed ✅</div>
+                    <div class="stat-value">{{ completed_requests_month }}</div>
+                    <p style="font-size: 12px; color: #999;">This month</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Credits Used 📈</div>
+                    <div class="stat-value">{{ credits_used_total }}</div>
+                    <p style="font-size: 12px; color: #999;">Total spent</p>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="action-card">
+                    <span class="icon">+</span>
+                    <a href="{{ url_for('new_request') }}"><h3>New Request></h3></a> 
+                    <p>Submit a new design request</p>
+                </div>
+                <div class="action-card">
+                    <span class="icon">🎁</span>
+                    <a href="{{ url_for('buy_package') }}"><h3>Buy Package</h3></a> 
+                    <p>Purchase a credit package</p>
+                </div>
+                <div class="action-card">
+                    <span class="icon">💬</span>
+                    <h3>WhatsApp Setup</h3>
+                    <p>Configure notifications</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
