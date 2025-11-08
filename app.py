@@ -21,6 +21,9 @@ app.secret_key = SECRET_KEY
 # configure SQL Alchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "connect_args": {"sslmode": "require"}
+}
 
 db = SQLAlchemy(app)
 
@@ -113,9 +116,9 @@ def update_request_statuses():
 
         db.session.commit()
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=update_request_statuses, trigger="interval", seconds=30)
-scheduler.start()
+# scheduler = BackgroundScheduler()
+# scheduler.add_job(func=update_request_statuses, trigger="interval", seconds=30)
+# scheduler.start()
 
 
 def check_and_expire_credits(user):
@@ -654,3 +657,5 @@ def setting():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+app = app
