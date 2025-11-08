@@ -10,8 +10,11 @@ from dotenv import load_dotenv
 
 load_dotenv()  # loads .env
 
-SECRET_KEY = os.getenv("SECRET_KEY", "fallbacksecret")
-DATABASE_URL = os.getenv("DATABASE_URL")
+print("🔍 DATABASE_URL loaded:", os.getenv("DATABASE_URL") is not None)
+print("🔍 SECRET_KEY loaded:", os.getenv("SECRET_KEY") is not None)
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+DATABASE_URL = os.getenv("DATABASE_URL","sqlite:///local.db")
 
 app = Flask(__name__)
 
@@ -21,9 +24,7 @@ app.secret_key = SECRET_KEY
 # configure SQL Alchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "connect_args": {"sslmode": "require"}
-}
+
 
 db = SQLAlchemy(app)
 
