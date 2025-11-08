@@ -14,7 +14,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "fallbacksecret")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+
+app.secret_key = SECRET_KEY
 
 
 # configure SQL Alchemy
