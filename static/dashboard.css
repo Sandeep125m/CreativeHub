@@ -54,6 +54,14 @@ body {
     margin-right: 20px;
 }
 
+.logout-btn {
+    background-color: #45455f;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
 .welcome-message h1 {
     font-size: 24px;
     margin-bottom: 5px;

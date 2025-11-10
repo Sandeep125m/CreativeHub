@@ -10,9 +10,6 @@ from dotenv import load_dotenv
 
 load_dotenv()  # loads .env
 
-print("🔍 DATABASE_URL loaded:", os.getenv("DATABASE_URL") is not None)
-print("🔍 SECRET_KEY loaded:", os.getenv("SECRET_KEY") is not None)
-
 SECRET_KEY = os.getenv("SECRET_KEY")
 DATABASE_URL = os.getenv("DATABASE_URL","sqlite:///local.db")
 
@@ -36,7 +33,10 @@ class User(db.Model):
     whatsapp_number = db.Column(db.String(20), nullable=True)  # new field
     credits = db.Column(db.Integer, default=100)  # default credits for demo
     expiring_credits = db.Column(db.Integer, default=0)
-    expiry_date = db.Column(db.String(50), default="2025-12-01")
+    whatsapp_notifications = db.Column(db.Boolean, default=False)
+    email_notifications = db.Column(db.Boolean, default=False)
+    credit_expiry_alerts = db.Column(db.Boolean, default=False)
+    expiry_date = db.Column(db.String(50), default="2026-12-01")
     active_requests = db.Column(db.Integer, default=0)
     completed_requests_month = db.Column(db.Integer, default=0)
     credits_used_total = db.Column(db.Integer, default=0)
@@ -640,6 +640,12 @@ def setting():
         return redirect(url_for('login'))
 
     user = User.query.get(session['user_id'])
+    current_balance = user.credits
+    user_name = user.name 
+    user_email = user.email
+    whatsapp_notifications = user.whatsapp_notifications
+    email_notifications = user.email_notifications
+    credit_expiry_alerts = user.credit_expiry_alerts
 
     if request.method == 'POST':
         new_number = request.form.get('whatsapp_number').strip()
@@ -653,10 +659,17 @@ def setting():
         flash('Your WhatsApp number has been updated!', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('setting.html', whatsapp_number=user.whatsapp_number)
+    return render_template('setting.html', 
+                           whatsapp_number=user.whatsapp_number,
+                           available_credits=current_balance,
+                           user_name=user_name,
+                           user_email=user_email,
+                           whatsapp_notifications=whatsapp_notifications,
+                           email_notifications=email_notifications,
+                           credit_expiry_alerts=credit_expiry_alerts
+                           )
 
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-app = app

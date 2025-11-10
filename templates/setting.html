@@ -4,76 +4,338 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreativeHub | Settings</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboards.css') }}">
 </head>
 <body>
 
-<div class="main-container">
-    <div class="sidebar">
-        <a href="{{ url_for('home') }}">
-            <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
-        </a>
-        <nav class="sidebar-menu">
-            <a href="{{ url_for('dashboard') }}">
-                <span class="icon">📊</span> Dashboard
+    <div class="main-container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon">✨</div>
+                CreativeHub
             </a>
-            <a href="{{ url_for('new_request') }}">
-                <span class="icon">+</span> New Request
-            </a>
-            <a href="{{ url_for('my_requests') }}">
-                <span class="icon">📜</span> My Requests
-            </a>
-            <a href="{{ url_for('buy_package') }}">
-                <span class="icon">📦</span> Buy Package
-            </a>
-            <a href="{{ url_for('buy_credits') }}">
-                <span class="icon">💳</span> Buy Credits
-            </a>
-            <a href="{{ url_for('credit_history') }}">
-                <span class="icon">🕒</span> Credit History
-            </a>
-            <a href="{{ url_for('setting') }}" class="active">
-                <span class="icon">⚙️</span> Settings
-            </a>
-        </nav>
-        <div style="padding: 20px; margin-top: 50px;">
-            <p>Need Help?</p>
-            <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="header">
-            <div class="credit-info">{{ available_credits }} credits</div>
-            <a href="{{ url_for('logout') }}">Logout </a>
-        </div>
-
-        <div class="welcome-message">
-            <h1>Settings</h1>
-            <p>Update your WhatsApp number for notifications</p>
-        </div>
-
-        <hr>
-
-        <div class="form-container">
-                {% if whatsapp_number %}
-                    <p style="font-size:14px; color:#555;">Current number: <strong>{{ whatsapp_number }}</strong></p>
-                {% endif %}
-                <form method="POST">
-                    <label for="whatsapp_number">WhatsApp Number</label>
-                    <input type="text" id="whatsapp_number" name="whatsapp_number" placeholder="Enter your WhatsApp number" value="{{ whatsapp_number if whatsapp_number else '' }}">
-                    <button type="submit">
-                        {% if whatsapp_number %}
-                            Change
-                        {% else %}
-                            Save
-                        {% endif %}
-                    </button>
-                </form>
+            <nav class="nav-menu">
+                <a href="{{ url_for('dashboard') }}">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="/new_request" >
+                    <span class="icon">+</span> New Request
+                </a>
+                <a href="/my_requests">
+                    <span class="icon">📜</span> My Requests
+                </a>
+                <a href="/buy_package">
+                    <span class="icon">📦</span> Buy Package
+                </a>
+                <a href="/buy_credits">
+                    <span class="icon">💳</span> Buy Credits
+                </a>
+                <a href="/credit_history" >
+                    <span class="icon">🕒</span> Credit History
+                </a>
+                <a href="/settings" class="active">
+                    <span class="icon">⚙️</span> Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Need Help?</p>
+                <p class="subtitle">Contact our support team</p>
+                <button class="support-btn">Get Support</button>
             </div>
+        </div>
 
+        <div class="content">
+            <nav class="top-nav">
+                <div class="nav-right">
+                    <div class="credit-badge">
+                        <span>💳</span> {{ available_credits }} credits
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content">
+            <div class="header">
+                <div>
+                    <h1>Settings</h1>
+                    <p class="subtitle">Manage account and notification preferences</p>
+                </div>    
+            </div>
+            
+
+            <section class="settings-section">
+                <div class="section-header">
+                    <span class="section-icon">👤</span>
+                    <h2 class="section-title">Account Information</h2>
+                </div>
+                <form id="account-form">
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-input" id="name" name="name" value="{{ user_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="email" value="{{ user_email }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Current Credits</label>
+                        <input type="text" class="form-input" id="credits" value="{{ available_credits }}" readonly disabled >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp Number (with country code)</label>
+                        <input type="tel" class="form-input" id="whatsapp_number" name="whatsapp_number" value="{{ whatsapp_number }}" >
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadSettings()">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- WhatsApp Notifications -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <span class="section-icon">💬</span>
+                    <h2 class="section-title">WhatsApp Notifications</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Enable WhatsApp Updates</h3>
+                        <p>Receive real-time notifications on WhatsApp</p>
+                    </div>
+                    <div class="toggle-switch" id="whatsapp-toggle" onclick="toggleNotification('whatsapp_enabled', this)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="whatsapp-number">
+                    <p>Current WhatsApp Number</p>
+                    <div class="whatsapp-number-value" id="current-whatsapp">Not set</div>
+                    <p style="margin-top: 12px; font-size: 12px;">You'll receive updates about:</p>
+                    <ul class="notification-list">
+                        <li>Request confirmations</li>
+                        <li>Project status updates</li>
+                        <li>Completed deliverables</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Other Notifications -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <span class="section-icon">🔔</span>
+                    <h2 class="section-title">Other Notifications</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Email Notifications</h3>
+                        <p>Receive updates via email</p>
+                    </div>
+                    <div class="toggle-switch" id="email-toggle" onclick="toggleNotification('email_notifications', this)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Credit Expiry Alerts</h3>
+                        <p>Get notified before credits expire</p>
+                    </div>
+                    <div class="toggle-switch" id="expiry-toggle" onclick="toggleNotification('credit_expiry_alerts', this)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <span class="section-icon">🔒</span>
+                    <h2 class="section-title">Security</h2>
+                </div>
+                <h3 style="font-size: 15px; font-weight: 500; margin-bottom: 12px;">Change Password</h3>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" class="form-input" id="current_password" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" class="form-input" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-input" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <div class="password-note">
+                        Note: For security purposes, changing your password requires verification. Click the button below to open the password change form.
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                        <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+                    </div>
+                </form>
+            </section>
+        </main>
     </div>
-</div>
+    </div>
 
+</div>
+</div>
+<script>
+        // Load settings on page load
+        window.addEventListener('DOMContentLoaded', loadSettings);
+
+        // Load current settings
+        async function loadSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const { account, notifications } = data.data;
+                    
+                    // Update account info
+                    document.getElementById('name').value = account.name || '';
+                    document.getElementById('email').value = account.email;
+                    document.getElementById('credits').value = account.credits;
+                    document.getElementById('credits-display').textContent = account.credits;
+                    document.getElementById('whatsapp_number').value = account.whatsapp_number || '';
+                    document.getElementById('current-whatsapp').textContent = account.whatsapp_number || 'Not set';
+                    
+                    // Update notification toggles
+                    setToggleState('whatsapp-toggle', notifications.whatsapp_enabled);
+                    setToggleState('email-toggle', notifications.email_notifications);
+                    setToggleState('expiry-toggle', notifications.credit_expiry_alerts);
+                }
+            } catch (error) {
+                showAlert('Error loading settings', 'error');
+            }
+        }
+
+        // Update account form
+        document.getElementById('account-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                e.target.classList.add('loading');
+                const response = await fetch('/api/settings/account', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(result.message, 'success');
+                    document.getElementById('current-whatsapp').textContent = data.whatsapp_number || 'Not set';
+                } else {
+                    showAlert(result.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error updating account', 'error');
+            } finally {
+                e.target.classList.remove('loading');
+            }
+        });
+
+        // Toggle notifications
+        async function toggleNotification(type, element) {
+            element.classList.toggle('active');
+            const isEnabled = element.classList.contains('active');
+            
+            try {
+                const response = await fetch('/api/settings/notifications', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ [type]: isEnabled })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(result.message, 'success');
+                } else {
+                    // Revert toggle if failed
+                    element.classList.toggle('active');
+                    showAlert(result.message, 'error');
+                }
+            } catch (error) {
+                element.classList.toggle('active');
+                showAlert('Error updating preferences', 'error');
+            }
+        }
+
+        // Password modal functions
+        function openPasswordModal() {
+            document.getElementById('password-modal').classList.add('show');
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.remove('show');
+            document.getElementById('password-form').reset();
+        }
+
+        // Change password form
+        document.getElementById('password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                e.target.classList.add('loading');
+                const response = await fetch('/api/settings/password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(result.message, 'success');
+                    closePasswordModal();
+                } else {
+                    showAlert(result.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error changing password', 'error');
+            } finally {
+                e.target.classList.remove('loading');
+            }
+        });
+
+        // Helper functions
+        function setToggleState(elementId, isActive) {
+            const element = document.getElementById(elementId);
+            if (isActive) {
+                element.classList.add('active');
+            } else {
+                element.classList.remove('active');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type} show`;
+            
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('password-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'password-modal') {
+                closePasswordModal();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Buy Credits | CreativeHub</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboards.css') }}">
     <style>
         
         /* Main content */
@@ -157,16 +157,17 @@
 </head>
 <body>
 
-<div class="main-container">
+    <div class="main-container">
         <div class="sidebar">
-            <a href="{{ url_for('home') }}">
-                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon">✨</div>
+                CreativeHub
             </a>
-            <nav class="sidebar-menu">
+            <nav class="nav-menu">
                 <a href="{{ url_for('dashboard') }}">
                     <span class="icon">📊</span> Dashboard
                 </a>
-                <a href="/new_request">
+                <a href="/new_request" >
                     <span class="icon">+</span> New Request
                 </a>
                 <a href="/my_requests">
@@ -185,25 +186,31 @@
                     <span class="icon">⚙️</span> Settings
                 </a>
             </nav>
-            <div style="padding: 20px; margin-top: 50px;">
+            <div class="sidebar-footer">
                 <p>Need Help?</p>
-                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+                <p class="subtitle">Contact our support team</p>
+                <button class="support-btn">Get Support</button>
             </div>
         </div>
 
         <div class="content">
-            <div class="header">
-                <div class="credit-info">{{ available_credits }} credits</div>
-                <a href="{{ url_for('logout') }}">Logout </a>
-            </div>
+            <nav class="top-nav">
+                <div class="nav-right">
+                    <div class="credit-badge">
+                        <span>💳</span> {{ available_credits }} credits
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </a>
+                </div>
+            </nav>
 
-<div class="main">
-    <h1>Buy Additional Credits</h1>
-    <p class="subtext">Top up your account with extra credits</p>
-
-    <div class="balance">
+    <div class="main">
+        <h1>Buy Additional Credits</h1>
+        <p class="subtext">Top up your account with extra credits</p>
+        <div class="balance">
         Current Balance: <span>{{ available_credits }} credits</span>
-    </div>
+        </div>
 
     <form id="purchaseForm" method="POST">
         <input type="hidden" name="credits" id="creditsInput">

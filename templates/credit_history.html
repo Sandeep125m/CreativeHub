@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Credit History | CreativeHub</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboards.css') }}">
   <style>
     :root {
       --bg: #f8f9fb;
@@ -136,14 +136,15 @@
 
   <div class="main-container">
         <div class="sidebar">
-            <a href="{{ url_for('home') }}">
-                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon">✨</div>
+                CreativeHub
             </a>
-            <nav class="sidebar-menu">
+            <nav class="nav-menu">
                 <a href="{{ url_for('dashboard') }}">
                     <span class="icon">📊</span> Dashboard
                 </a>
-                <a href="/new_request">
+                <a href="/new_request" >
                     <span class="icon">+</span> New Request
                 </a>
                 <a href="/my_requests">
@@ -152,7 +153,7 @@
                 <a href="/buy_package">
                     <span class="icon">📦</span> Buy Package
                 </a>
-                <a href="/buy_credits" >
+                <a href="/buy_credits">
                     <span class="icon">💳</span> Buy Credits
                 </a>
                 <a href="/credit_history" class="active">
@@ -162,17 +163,24 @@
                     <span class="icon">⚙️</span> Settings
                 </a>
             </nav>
-            <div style="padding: 20px; margin-top: 50px;">
+            <div class="sidebar-footer">
                 <p>Need Help?</p>
-                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+                <p class="subtitle">Contact our support team</p>
+                <button class="support-btn">Get Support</button>
             </div>
         </div>
 
         <div class="content">
-            <div class="header">
-                <div class="credit-info">{{ available_credits }} credits</div>
-                <a href="{{ url_for('logout') }}">Logout </a>
-            </div>
+            <nav class="top-nav">
+                <div class="nav-right">
+                    <div class="credit-badge">
+                        <span>💳</span> {{ available_credits }} credits
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </a>
+                </div>
+            </nav>
 
 
   <!-- Main -->

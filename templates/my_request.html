@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreativeHub | My Requests</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboards.css') }}">
     <style>
         .request-status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
         .status-card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
@@ -110,11 +110,12 @@
 
     <div class="main-container">
         <div class="sidebar">
-            <a href="{{ url_for('home') }}">
-                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon">✨</div>
+                CreativeHub
             </a>
-            <nav class="sidebar-menu">
-                <a href="{{ url_for('dashboard') }}" >
+            <nav class="nav-menu">
+                <a href="{{ url_for('dashboard') }}">
                     <span class="icon">📊</span> Dashboard
                 </a>
                 <a href="/new_request">
@@ -136,21 +137,29 @@
                     <span class="icon">⚙️</span> Settings
                 </a>
             </nav>
-            <div style="padding: 20px; margin-top: 50px;">
+            <div class="sidebar-footer">
                 <p>Need Help?</p>
-                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+                <p class="subtitle">Contact our support team</p>
+                <button class="support-btn">Get Support</button>
             </div>
         </div>
 
         <div class="content">
-            <div class="header">
-                <div class="credit-info">{{ available_credits }} credits</div>
-                <a href="{{ url_for('logout') }}">Logout →</a>
-            </div>
+            <nav class="top-nav">
+                <div class="nav-right">
+                    <div class="credit-badge">
+                        <span>💳</span> {{ available_credits }} credits
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </a>
+                </div>
+            </nav>
 
-            <div class="content-header">
+
+            <div class="content">
                 <h2>My Requests</h2>
-                <p style="color: #666; margin-top: -20px; margin-bottom: 20px;">Track all your design requests</p>
+                <p style="color: #666;">Track all your design requests</p>
                 <a href="/new_request" class="header-request">
                     <button class="create-request-btn" style="background-color: #333;">+ New Request</button>
                 </a>

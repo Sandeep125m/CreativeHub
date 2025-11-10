@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreativeHub | New Request</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboards.css') }}">
     <style>
         
         .card { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -28,15 +28,16 @@
 
     <div class="main-container">
         <div class="sidebar">
-            <a href="{{ url_for('home') }}">
-                <div style="padding: 0 20px; font-weight: bold; margin-bottom: 30px; font-size: 20px;">CreativeHub</div>
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon">✨</div>
+                CreativeHub
             </a>
-            <nav class="sidebar-menu">
+            <nav class="nav-menu">
                 <a href="{{ url_for('dashboard') }}">
                     <span class="icon">📊</span> Dashboard
                 </a>
                 <a href="/new_request" class="active">
-                    <span class="icon" style="color: #5a5aff;">+</span> New Request
+                    <span class="icon">+</span> New Request
                 </a>
                 <a href="/my_requests">
                     <span class="icon">📜</span> My Requests
@@ -54,17 +55,24 @@
                     <span class="icon">⚙️</span> Settings
                 </a>
             </nav>
-            <div style="padding: 20px; margin-top: 50px;">
+            <div class="sidebar-footer">
                 <p>Need Help?</p>
-                <button style="background-color: #5a5aff; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; cursor: pointer;">Get Support</button>
+                <p class="subtitle">Contact our support team</p>
+                <button class="support-btn">Get Support</button>
             </div>
         </div>
 
         <div class="content">
-            <div class="header">
-                <div class="credit-info">{{ available_credits }} credits</div>
-                <a href="{{ url_for('logout') }}">Logout →</a>
-            </div>
+            <nav class="top-nav">
+                <div class="nav-right">
+                    <div class="credit-badge">
+                        <span>💳</span> {{ available_credits }} credits
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </a>
+                </div>
+            </nav>
 
             <div class="card">
                 <h2>New Request</h2>
